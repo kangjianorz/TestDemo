@@ -1,38 +1,79 @@
 package com.entity;
 
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import java.sql.Timestamp;
+
+@Entity
 public class User {
-    private Integer id;
+    private int id;
+    private String userName;
+    private String password;
+    private Timestamp createTime;
 
-    private String name;
-
-    private Integer age;
-
-    public Integer getId() {
+    @Id
+    @Column(name = "id", nullable = false)
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    @Basic
+    @Column(name = "user_name", nullable = false, length = 32)
+    public String getUserName() {
+        return userName;
     }
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public Integer getAge() {
-        return age;
+    @Basic
+    @Column(name = "password", nullable = false, length = 32)
+    public String getPassword() {
+        return password;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Basic
+    @Column(name = "create_time", nullable = true)
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
     }
 
     @Override
-    public String toString() {
-        return "名字："+this.getName()+"年龄："+this.getAge().toString();
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (id != user.id) return false;
+        if (userName != null ? !userName.equals(user.userName) : user.userName != null) return false;
+        if (password != null ? !password.equals(user.password) : user.password != null) return false;
+        if (createTime != null ? !createTime.equals(user.createTime) : user.createTime != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (userName != null ? userName.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
+        return result;
     }
 }
